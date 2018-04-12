@@ -1,4 +1,5 @@
 node {
+	copyArtifacts fingerprintArtifacts: true, optional: true, projectName: 'petclinic', selector: lastSuccessful()
 	try {
 
 		stage('Initialize') {
@@ -25,7 +26,7 @@ node {
 	   
 	   stage('Deploy') {
 			
-			sh "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 8080:8080 animeshdas/petclinic-deploy"
+			sh "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 8080:8080 maven-build-container"
 	   }
 
 	   stage('Cleanup - Job Successful') {
