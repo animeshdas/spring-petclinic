@@ -26,7 +26,7 @@ node {
 	   
 	   stage('Deploy') {
 			
-			sh "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 8080:8080 maven-build-container"
+			sh "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 8080:8080 maven-build:latest"
 	   }
 
 	   stage('Cleanup - Job Successful') {
