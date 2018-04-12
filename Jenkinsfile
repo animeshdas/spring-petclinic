@@ -11,12 +11,12 @@ node {
 	   
 	   stage('Cleanup Earlier Docker Build Containers') {
 			//sh "docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi"
-			sh "docker container prune -f ; docker images prune -f"
+			sh " docker container prune -f ; docker image prune -f"
 	   }
 	   
 	   stage('Run Maven Build Container') {
 			//Run maven image
-			sh "docker run --rm --name maven-build-container maven-build"
+			sh " docker run --rm --name maven-build-container maven-build"
 	   }
 	   
 	   stage('Deploy the Petclinic Application') {
@@ -28,7 +28,7 @@ node {
 	   }
 	} finally {
 		stage('Final Cleanup Any Dangling Containers') {
-			sh "docker container prune -f ; docker images prune -f"
+			sh " docker container prune -f; docker image prune -f"
 			}
 	}
 }
