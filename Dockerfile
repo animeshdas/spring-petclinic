@@ -1,5 +1,5 @@
-#FROM maven:3.5-jdk-8
-FROM zenika/alpine-maven
+FROM maven:3.5-jdk-8
+#FROM zenika/alpine-maven
 
 RUN mkdir -p /deploy/application
 
