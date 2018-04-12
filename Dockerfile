@@ -4,4 +4,4 @@ RUN mkdir -p /deploy/application
 VOLUME ["/deploy/application"]
 WORKDIR /deploy/application
 ADD . /deploy/application
-ENTRYPOINT ["mvn","clean","install"]
+ENTRYPOINT ["mvn","clean","package"]

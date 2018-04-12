@@ -25,17 +25,17 @@ node {
 	   }
 	   
 	   stage('Deploy') {
-			copyArtifacts fingerprintArtifacts: true, optional: true, projectName: 'petclinic', selector: lastSuccessful()
+			//copyArtifacts fingerprintArtifacts: true, optional: true, projectName: 'petclinic', selector: lastSuccessful()
 			sh "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 8090:8090 maven-build:latest"
 	   }
 
-	   stage('Cleanup - Job Successful') {
+	   stage('Post-Cleanup') {
 	   		sh "docker container prune -f; docker image prune -f"
 	   }
 
 	} finally {
-		stage('Cleanup - Job Failed') {
+		//stage('Post-Cleanup - on Failures') {
 			sh "docker container prune -f; docker image prune -f"
-			}
+		//	}
 	}
 }
