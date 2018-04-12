@@ -10,6 +10,11 @@ node {
 			//sh "docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi"
 			sh " docker container prune -f ; docker image prune -f"
 	   }
+
+	   stage('Initialize My Maven'){
+    		def mavenHome  = tool 'myMaven'
+    		env.PATH = "${mavenHome}/bin:${env.PATH}"
+		}
 	   
 	   stage('Build The Maven Image') {
 			docker.build("maven-build")
