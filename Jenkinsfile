@@ -29,5 +29,6 @@ node {
 	} finally {
 		stage('Final Cleanup Any Dangling Containers') {
 			sh "docker container prune -f ; docker images prune -f"
+			}
 	}
 }
