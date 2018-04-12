@@ -1,41 +1,39 @@
 node {
 	try {
-	   stage('Clone My Repository') {
-			// Cloned my GitHub repository
-			git 'https://github.com/animeshdas/spring-petclinic.git'
+
+		stage('Initialize') {
+			//sh "docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi"
+			sh " docker container prune -f ; docker image prune -f"
+			def mavenHome  = tool 'myMaven'
+    		env.PATH = "${mavenHome}/bin:${env.PATH}"
+	   }
+
+	   stage('Clone') {
+			// Cloned my GitHub repository at https://github.com/animeshdas/spring-petclinic.git
+			git url: '$scmUrl' 
 		
 	   }
 
-	   	stage('Startup Cleaner') {
-			//sh "docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi"
-			sh " docker container prune -f ; docker image prune -f"
-	   }
-
-	   stage('Initialize My Maven'){
-    		def mavenHome  = tool 'myMaven'
-    		env.PATH = "${mavenHome}/bin:${env.PATH}"
-		}
-	   
-	   stage('Build The Maven Image') {
+ 	   stage('Build') {
 			docker.build("maven-build")
 	   }
 	   
-   	   stage('Run Maven Build Container') {
+   	   stage('Test') {
 			//Run maven image
 			sh "docker run --name maven-build-container maven-build"
 	   }
 	   
-	   stage('Deploy the Petclinic Application') {
+	   stage('Deploy') {
 			
 			sh "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 8080:8080 animeshdas/petclinic-deploy"
 	   }
 
-	   stage('Final Cleanup - After SUCCESS') {
+	   stage('Cleanup') {
 	   		sh "docker container prune -f; docker image prune -f"
 	   }
 
 	} finally {
-		stage('Final Cleanup - After FAILURES') {
+		stage('Cleanup') {
 			sh "docker container prune -f; docker image prune -f"
 			}
 	}
