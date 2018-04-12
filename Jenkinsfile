@@ -9,8 +9,8 @@ node {
 	   }
 
 	   stage('Clone') {
-			// Cloned my GitHub repository at https://github.com/animeshdas/spring-petclinic.git
-			git "${GIT_URL}"
+			// Cloned my GitHub repository
+			git 'https://github.com/animeshdas/spring-petclinic.git'
 		
 	   }
 
