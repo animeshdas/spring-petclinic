@@ -22,7 +22,7 @@ node {
 	   
    	   stage('Run Maven Build Container') {
 			//Run maven image
-			sh " docker run --rm --name maven-build-container maven-build"
+			sh "docker run --name maven-build-container maven-build"
 	   }
 	   
 	   stage('Deploy the Petclinic Application') {
@@ -31,12 +31,12 @@ node {
 	   }
 
 	   stage('Final Cleanup - After SUCCESS') {
-	   		sh " docker container prune -f; docker image prune -f"
+	   		sh "docker container prune -f; docker image prune -f"
 	   }
 
 	} finally {
 		stage('Final Cleanup - After FAILURES') {
-			sh " docker container prune -f; docker image prune -f"
+			sh "docker container prune -f; docker image prune -f"
 			}
 	}
 }
